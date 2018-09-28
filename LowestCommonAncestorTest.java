@@ -4,10 +4,19 @@ import org.junit.Test;
 
 public class LowestCommonAncestorTest {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-
+	@Test // test with no nodes
+	public void testEmpty() {
+		LowestCommonAncestor<Integer> testBST = new LowestCommonAncestor<Integer>();
+		
+		assertNull( testBST.search(testBST.root, 7, 1));
+		
+		@Test // test with only one node in
+		public void testSingle()
+		{
+			LeastCommonAncestor<Integer> testBST = new LowestCommonAncestor<Integer>();
+			testBST.put(7);
+			assertNull(testBST.search(testBST.root,1,3));
+			
+		}
 	}
-
 }
