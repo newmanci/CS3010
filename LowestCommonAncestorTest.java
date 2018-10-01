@@ -24,7 +24,7 @@ public void testSingle()
 }
 
 @Test // test with multiple nodes
-public void testPopulated()
+public void testMultiple()
 {
 	LowestCommonAncestor<Integer> test = new LowestCommonAncestor<Integer>();
 	test.put(9);
