@@ -10,9 +10,6 @@ public class LowestCommonAncestorTest {
 
 		assertNull( testBST.search(testBST.root, 7, 1));
 	}
-<<<<<<< HEAD
-	
-=======
 
 
 
@@ -93,4 +90,3 @@ public void testGet()
 
 }
 
->>>>>>> e2d173286fe7df8f062e087ead76934a9b180710
