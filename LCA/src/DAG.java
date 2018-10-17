@@ -98,3 +98,33 @@ public DagLCA(int V) {
 		return adj[v];
 	}
 
+
+	public boolean acyclic()
+	{
+		return isDAG;	
+	}
+	//Sedgewick
+	public void isAcyclic()
+	{
+		for(int i=0; i<V()&&isDAG;i++)
+		{
+			stack = new boolean[V];
+			marked= new boolean[V];
+			acyclic(i);
+		}
+	}
+	private void acyclic(int v)
+	{
+		stack[v] =true; 
+		marked[v] = true;
+
+		for (int w : adj(v)) {
+			if(!marked[w]) {
+				acyclic(w);
+			} else if (stack[w]) {
+				isDAG = false;
+				return;
+			}
+		}
+		stack[v] = false;
+	}
