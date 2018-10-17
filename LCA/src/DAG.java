@@ -45,3 +45,22 @@ public DagLCA(int V) {
 	    preCounter=0;
 	    postCounter=0;
 }
+
+	/**
+	 * Returns the number of vertices in this digraph.
+	 *
+	 * @return the number of vertices in this digraph
+	 */
+	public int V() {
+		return V;
+	}
+
+	/**
+	 * Returns the number of edges in this digraph.
+	 *
+	 * @return the number of edges in this digraph
+	 */
+	public int E() {
+		return E;
+	}
+
