@@ -44,6 +44,34 @@ public class DAGTest {
 		test1.isAcyclic();
 		assertFalse(test1.acyclic());
 	}
+	
+	@Test
+	public void testLCA()
+	{
+		DAG test1 = new DAG(15);
+		assertEquals("both vertices exist but are not connected", -1,test1.LCA(1, 2));
+		test1.addEdge(1, 2);
+		test1.addEdge(2, 3);
+		test1.addEdge(3, 4);
+		test1.addEdge(3, 5);
+		assertEquals("We know its 3",3,test1.LCA(4,5));
+		assertEquals("We know its 3",3,test1.LCA(5,4));
+		test1.addEdge(5, 6);
+		test1.addEdge(4, 7);
+		test1.addEdge(7,8);
+		test1.addEdge(6, 9);
+		test1.addEdge(9,10);
+		test1.addEdge(8, 10);
+		assertEquals("LCA should be at the branch point 3",3, test1.LCA(9,7));
+		assertEquals("LCA of 2 of the same line", 7,test1.LCA(7,8));
+		assertEquals("LCA of 2 of the same line", 4,test1.LCA(7,4));
+		assertEquals("LCA of 2 of the same line", 4,test1.LCA(4,7));
+		assertEquals("when one is in the DAG, yet not connected", -1,test1.LCA(13, 4));
+		test1.addEdge(9, 1);
+		assertEquals("LCA is cyclical",-1,test1.LCA(3, 1));
+		
+	}
+
 	}
 
 
