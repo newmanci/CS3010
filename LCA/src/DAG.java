@@ -3,17 +3,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class DAG {
+	// utilising https://algs4.cs.princeton.edu/42digraph/Digraph.java.html 
 	private int[] indegree;        // indegree[v] = indegree of vertex v
-	private final int V;           // number of vertices in this digraph
-	private int E;                 // number of edges in this digraph
+	private final int V;           // number of vertices in digraph
+	private int E;                 // number of edges in digraph
 	private ArrayList<Integer>[] adj;    // adj[v] = adjacency list for vertex v
 
 
 	public boolean isDAG;
-	public boolean[] marked; //boolean array for visited vertices
+	public boolean[] marked; // array of visited vertices
 	public boolean[] stack; 
 
-	// For DFS 
+	// For Depth First Search 
 	public int[]pre;   
 	public int[]post  ;
 	public ArrayList<Integer> postorder;
@@ -45,26 +46,25 @@ public class DAG {
 		preCounter=0;
 		postCounter=0;
 	}
-
-	/**
-	 * Returns the number of vertices in this digraph.
-	 *
-	 * @return the number of vertices in this digraph
-	 */
-	public int V() {
-		return V;
-	}
-
 	/**
 	 * Returns the number of edges in this digraph.
-	 *
-	 * @return the number of edges in this digraph
+
 	 */
 	public int E() {
 		return E;
 	}
 
-	// throw an IllegalArgumentException unless {@code 0 <= v < V}
+	/**
+	 * Returns the number of vertices in this digraph.
+
+	 */
+	public int V() {
+		return V;
+	}
+
+
+
+
 	private void validateVertex(int v) {
 		if (v < 0 || v >= V)
 			throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
@@ -73,10 +73,6 @@ public class DAG {
 
 	/**
 	 * Adds the directed edge v-w to this digraph.
-	 *
-	 * @param  v the tail vertex
-	 * @param  w the head vertex
-	 * @throws IllegalArgumentException unless both {@code 0 <= v < V} and {@code 0 <= w < V}
 	 */
 	public void addEdge(int v, int w) {
 		validateVertex(v);
@@ -88,10 +84,6 @@ public class DAG {
 
 	/**
 	 * Returns the vertices adjacent from vertex {@code v} in this digraph.
-	 *
-	 * @param  v the vertex
-	 * @return the vertices adjacent from vertex {@code v} in this digraph, as an iterable
-	 * @throws IllegalArgumentException unless {@code 0 <= v < V}
 	 */
 	public Iterable<Integer> adj(int v) {
 		validateVertex(v);
@@ -103,7 +95,7 @@ public class DAG {
 	{
 		return isDAG;	
 	}
-	//Sedgewick
+
 	public void isAcyclic()
 	{
 		for(int i=0; i<V()&&isDAG;i++)
@@ -132,23 +124,21 @@ public class DAG {
 	public int LCA(int v, int w)
 	{
 		boolean haveLCA =false;
-		//Will be acyclic if reversed so no need to reverse yet
+		//It will be acyclic when reversed so not necessary to reverse yet
 		isAcyclic();
 		if(!isDAG){
 			return -1;
 		}
-		validateVertex(v);//exception thrown if invalid
-		validateVertex(w);//check if they exist
-		if(E==0)// no edges
-		{
+		validateVertex(v);
+		validateVertex(w);//check if vertex exist
+		if(E==0)		{
 			return -1;
 		}
-		//is valid to search now reverse
 
 		DAG  reversed = this.reverse();
 		ArrayList<Integer> commonAncestors = new ArrayList<Integer>();
 
-		//Testing DFS first to see if it works       
+		//Testing DFS first     
 		ArrayList<Integer> childVSearch =reversed.bfs(v);
 
 		ArrayList<Integer> childWSearch= reversed.bfs(w);
@@ -157,7 +147,7 @@ public class DAG {
 			for(int t = 0; t<childWSearch.size(); t++)
 			{		
 				if(childVSearch.get(i)==childWSearch.get(t))
-				{ // first occurrence of a match is where the lowest common 
+				{ //first occurence of match is LCA
 					commonAncestors.add(childVSearch.get(i));	
 					haveLCA = true;
 				}
@@ -171,8 +161,7 @@ public class DAG {
 
 			return -1;
 	}
-	//reverse the DAG so we can navigate to parent nodes. th the add edge if thats even allowed
-
+	//reverse the DAG to enable navigation to parent nodes
 	public DAG reverse() {
 		DAG childToParent = new DAG(V);
 		for (int v = 0; v < V; v++) 
@@ -185,5 +174,38 @@ public class DAG {
 		}
 		return childToParent;
 	}
-}
 
+	public ArrayList<Integer> bfs(int s)
+	{
+
+		boolean visited[] = new boolean[V];
+
+		LinkedList<Integer> queue = new LinkedList<Integer>();
+		ArrayList<Integer> order= new ArrayList<Integer>();
+
+		visited[s]=true;
+		queue.add(s);
+
+
+		while (queue.size() != 0)
+		{
+			// Dequeue a vertex from queue and print 
+			s = queue.poll();           
+			order.add(s);
+			// If adjacent has not been visited, then mark it visited and enqueue it
+			Iterator<Integer> i = adj[s].listIterator();
+			while (i.hasNext())
+			{
+				int n = i.next();
+				if (!visited[n])
+				{
+					visited[n] = true;
+					queue.add(n);
+				}
+			}
+		}
+
+		return order;
+	}
+
+}
