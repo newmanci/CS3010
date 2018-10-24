@@ -20,6 +20,30 @@ public class DAGTest {
 
 	}
 	
+	@Test(expected = IllegalArgumentException.class) 
+	public void testExceptionThrowers() 
+	{
+		DAG test = new DAG(6);
+		test.adj(-1);
+		test.adj(88);
+		test.LCA(1, -1);//not possible to have it 
+		test.LCA(1, 88);//vertex is out of bounds
+		DAG test2 = new DAG(-4); //Shouldn't have negative vertices
+	}
+	
+	@Test
+	public void testAcyclic()
+	{
+		DAG test1 = new DAG(13);
+		test1.addEdge(1, 2);
+		test1.addEdge(2, 3);
+		test1.addEdge(3, 4);
+		test1.isAcyclic();
+		assertTrue(test1.acyclic());
+		test1.addEdge(4,1);
+		test1.isAcyclic();
+		assertFalse(test1.acyclic());
+	}
 	}
 
-}
+
