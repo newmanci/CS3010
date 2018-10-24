@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import org.junit.Test;
 public class DAGTest {
 
+
+	//test cases based on Directed Acyclic Graph similar to Sedgwicks AdjMatrix 
+
 	@Test
 	public void testE()
 	{
@@ -19,7 +22,7 @@ public class DAGTest {
 		assertEquals("testing V() function", 20, test1.V());
 
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class) 
 	public void testExceptionThrowers() 
 	{
@@ -30,7 +33,7 @@ public class DAGTest {
 		test.LCA(1, 88);//vertex is out of bounds
 		DAG test2 = new DAG(-4); //Shouldn't have negative vertices
 	}
-	
+
 	@Test
 	public void testAcyclic()
 	{
@@ -44,7 +47,7 @@ public class DAGTest {
 		test1.isAcyclic();
 		assertFalse(test1.acyclic());
 	}
-	
+
 	@Test
 	public void testLCA()
 	{
@@ -69,9 +72,27 @@ public class DAGTest {
 		assertEquals("when one is in the DAG, yet not connected", -1,test1.LCA(13, 4));
 		test1.addEdge(9, 1);
 		assertEquals("LCA is cyclical",-1,test1.LCA(3, 1));
-		
-	}
 
 	}
+
+
+	@Test 
+	public void testReverse()
+	{
+		DAG test1 = new DAG(10);
+		test1.addEdge(1, 2);
+		test1.addEdge(0, 1);
+		DAG testReverse = test1.reverse();
+		assertSame("Edges need to be the same", testReverse.E(),test1.E());
+		assertSame("Should not lose vertices", testReverse.V(),test1.V());
+		DAG test2 = new DAG(25);
+		DAG rev2 = test2.reverse();
+		assertSame("Edges need to be the same", rev2.E(),test2.E());
+		assertSame("Should not lose vertices", rev2.V(),test2.V());
+	}
+
+
+}
+
 
 
